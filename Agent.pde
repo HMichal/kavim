@@ -1,5 +1,4 @@
 
-
 class Agent {
   PVector p, pOld;
   float noiseZ, noiseZVelocity = 0.01;
@@ -81,10 +80,8 @@ class Agent {
       fill(myCol, 80);
     } else {
       stroke(myCol, 160);
-      //fill(255, 210, 60, 180);
       fill(myCol, 180);
     }
-    //line(pOld.x,pOld.y, p.x,p.y);
     color picolor;
     if (!makeMandala && !die) {
       if (fromPIC) {        
@@ -103,10 +100,6 @@ class Agent {
         fill(picolor, 180);
       }
       if (pen) {
-        /*
-        ellipse(des.x, des.y, sWidth*sin(noiseZ*desStepSize), sWidth*sin(noiseZ*desStepSize)); 
-         ellipse(p.x, p.y, sWidth*sin(noiseZ*stepSize), sWidth*sin(noiseZ*stepSize));
-         */
         pushStyle();
         strokeWeight(abs(sWidth*sin(noiseZ*stepSize)));
         if (dist(des.x, des.y, desOld.x, desOld.y) < 6) {
@@ -114,10 +107,6 @@ class Agent {
           line(p.x, p.y, pOld.x, pOld.y);
         }
         if (symmetry) {
-          /*
-          ellipse(width - des.x, des.y, sWidth*sin(noiseZ*desStepSize), 4*sin(noiseZ*desStepSize)); 
-           ellipse(width - p.x, p.y, sWidth*sin(noiseZ*stepSize), 4*sin(noiseZ*stepSize));
-           */
           if (dist(des.x, des.y, desOld.x, desOld.y) < 6) {
             line(width - des.x, des.y, width - desOld.x, desOld.y);
             line(width - p.x, p.y, width - pOld.x, pOld.y);
@@ -141,21 +130,7 @@ class Agent {
       PVector newdes = new PVector(des.x + width/2, des.y + height/2);
       PVector pp = new PVector(p.x + width/2, p.y + height/2);
 
-      //float farfar = newp.mag();
       float alpha = 0;
-      //float farfar2 = dist(des.x, des.y, width/2, height/2); //des.mag();
-      /*
-      if (farfar >= width/6 && farfar2 >= width/6)
-       {
-       alpha = fast;
-       fast *=2;
-       }
-       
-       if (farfar >= width/3 && farfar2 >= width/3) {
-       alpha = fast;
-       fast *=2;
-       }
-       */
       pushMatrix();
       translate(width/2, height/2);
       if (alpha > 0) rotate((TWO_PI/fast)/2);
@@ -171,20 +146,9 @@ class Agent {
           mirdes = PVector.fromAngle(TWO_PI/slices - newdes.heading());
           mirp.setMag(newp.mag());
           mirdes.setMag(newdes.mag());
-          /*
-            mirp.x = mirp.x + width/2;
-           mirp.y = mirp.y + height/2;
-           mirdes.x = mirdes.x + width/2;
-           mirdes.y = mirdes.y + height/2;*/
-
           if (pen) {
-            /*
-            ellipse(mirdes.x, mirdes.y, sWidth*sin(noiseZ*desStepSize), sWidth*sin(noiseZ*desStepSize)); 
-             ellipse(mirp.x, mirp.y, sWidth*sin(noiseZ*stepSize), sWidth*sin(noiseZ*stepSize));
-             */
             pushStyle();
             strokeWeight(abs(sWidth*sin(noiseZ*stepSize)));
-            //line(mirdes.x, mirdes.y, oldmdes.x, oldmdes.y);
             if (dist(mirp.x, mirp.y, oldm.x, oldm.y) < 6 && oldm.x != 0 && oldm.y != 0)
               line(mirp.x, mirp.y, oldm.x, oldm.y);
             popStyle();
@@ -192,23 +156,15 @@ class Agent {
           if (showLines) 
             line(mirdes.x, mirdes.y, mirp.x, mirp.y);
         } else { /* second half of leaf */
-          //PVector newp = new PVector(p.x + width/2, p.y + height/2);
-          //PVector newdes = new PVector(des.x + width/2, des.y + height/2);
           if (pen) {
-            /*
-            ellipse(newdes.x, newdes.y, sWidth*sin(noiseZ*desStepSize), sWidth*sin(noiseZ*desStepSize)); 
-             ellipse(newp.x, newp.y, sWidth*sin(noiseZ*stepSize), sWidth*sin(noiseZ*stepSize));
-             */
             pushStyle();
             strokeWeight(abs(sWidth*sin(noiseZ*stepSize)));
-            //line(newdes.x, newdes.y, pdes.x, pdes.y);
             if (dist(newp.x, newp.y, pp.x, pp.y) < 6 && pp.x != 0 && pp.y != 0)
               line(newp.x, newp.y, pp.x, pp.y);
             popStyle();
           }
           if (showLines) {
             line(newdes.x, newdes.y, newp.x, newp.y);
-            //line(m_des.x, m_des.y, mo_des.x, mo_des.y);
           }
         }
         rotate(TWO_PI/fast);
@@ -221,9 +177,6 @@ class Agent {
     desOld.set(des);
     noiseZ += noiseZVelocity;
   }
-
-
-
 
   void setNoiseZRange(float theNoiseZRange) {
     // small values will increase grouping of the agents
