@@ -43,9 +43,10 @@ boolean pen = true;
 boolean fromPIC = true;
 int spotsNum = 5;
 int slices = 12;
+float minDist = 10.0;
 
 void setup() {
-  size(1000, 800); //size(1280,800,P3D);
+  size(1024, 768); //size(1280,800,P3D);
   background(bg);
   smooth();
   frameRate(10);
@@ -171,6 +172,17 @@ void keyReleased() {
   if (key == '4') {
     spotsNum+=1;
     if (spotsNum > 20) spotsNum = 20;
+    initit();
+  }
+  
+  if (key == '5') {
+    slices-= 2;
+    if (slices < 4) slices = 4;
+    initit();
+  }
+  if (key == '6') {
+    slices+=2;
+    if (slices > 40) slices = 40;
     initit();
   }
 }
