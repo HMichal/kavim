@@ -102,12 +102,12 @@ class Agent {
       if (pen) {
         pushStyle();
         strokeWeight(abs(sWidth*sin(noiseZ*stepSize)));
-        if (dist(des.x, des.y, desOld.x, desOld.y) < 6) {
+        if (dist(des.x, des.y, desOld.x, desOld.y) < minDist) {
           line(des.x, des.y, desOld.x, desOld.y);
           line(p.x, p.y, pOld.x, pOld.y);
         }
         if (symmetry) {
-          if (dist(des.x, des.y, desOld.x, desOld.y) < 6) {
+          if (dist(des.x, des.y, desOld.x, desOld.y) < minDist) {
             line(width - des.x, des.y, width - desOld.x, desOld.y);
             line(width - p.x, p.y, width - pOld.x, pOld.y);
           }
@@ -128,8 +128,13 @@ class Agent {
       int fast = slices;
       PVector newp = new PVector(p.x + width/2, p.y + height/2);
       PVector newdes = new PVector(des.x + width/2, des.y + height/2);
-      PVector pp = new PVector(p.x + width/2, p.y + height/2);
-
+      PVector pp = new PVector(pOld.x + width/2, pOld.y + height/2);
+      
+      mirp = PVector.fromAngle(TWO_PI/slices - newp.heading());
+      mirdes = PVector.fromAngle(TWO_PI/slices - newdes.heading());
+      mirp.setMag(newp.mag());
+      mirdes.setMag(newdes.mag());
+      
       float alpha = 0;
       pushMatrix();
       translate(width/2, height/2);
@@ -137,19 +142,11 @@ class Agent {
 
       for (int i = 0; i < fast; i++) {
         /////////////// mirror //////////////////
-        if (i % 2 == 1) {  
-          //PVector newp = new PVector(p.x + width/2, p.y + height/2);
-          //PVector newdes = new PVector(des.x + width/2, des.y + height/2); 
-          oldm.set(mirp);
-          oldmdes.set(mirdes);
-          mirp = PVector.fromAngle(TWO_PI/slices - newp.heading());
-          mirdes = PVector.fromAngle(TWO_PI/slices - newdes.heading());
-          mirp.setMag(newp.mag());
-          mirdes.setMag(newdes.mag());
+        if (i % 2 == 1) {       
           if (pen) {
             pushStyle();
             strokeWeight(abs(sWidth*sin(noiseZ*stepSize)));
-            if (dist(mirp.x, mirp.y, oldm.x, oldm.y) < 6 && oldm.x != 0 && oldm.y != 0)
+            if (mirp.dist(oldm) < minDist && oldm.x != 0 && oldm.y != 0)
               line(mirp.x, mirp.y, oldm.x, oldm.y);
             popStyle();
           }
@@ -159,7 +156,7 @@ class Agent {
           if (pen) {
             pushStyle();
             strokeWeight(abs(sWidth*sin(noiseZ*stepSize)));
-            if (dist(newp.x, newp.y, pp.x, pp.y) < 6 && pp.x != 0 && pp.y != 0)
+            if (dist(newp.x, newp.y, pp.x, pp.y) < minDist && pp.x != 0 && pp.y != 0)
               line(newp.x, newp.y, pp.x, pp.y);
             popStyle();
           }
@@ -175,8 +172,10 @@ class Agent {
 
     pOld.set(p);
     desOld.set(des);
+    oldm.set(mirp);
     noiseZ += noiseZVelocity;
   }
+
 
   void setNoiseZRange(float theNoiseZRange) {
     // small values will increase grouping of the agents
