@@ -19,7 +19,9 @@
  * M                   : toggle show Mandala or abstract
  * T                   : toggle transparent 
  * 1-2                 : 1 - decrease number of agents and 2 - increase
- * 3-4                 : 1 - decrease number of spots and 2 - increase
+ * 3-4                 : 3 - decrease number of spots and 4 - increase
+ * 5-6                 : 5 - decrease number of petals and 6 - increase
+ * 7-8                 : 7 - decrease width of pen and 8 - increase
  */
 
 import javax.swing.*; 
@@ -29,7 +31,7 @@ import java.util.Calendar;
 Agent[] agents = new Agent[1000]; // create more ... to fit max slider agentsCount
 int agentsCount = 80;
 float noiseScale = 80, noiseStrength = 12, noiseZRange = 0.4;
-float agentsAlpha = 90, strokeWidth = 0.3;
+float agentsAlpha = 90, strokeWidth = 0.3, widthFactor = 3.0;
 int drawMode = 1;
 color bg = 0;
 PImage scrShot;
@@ -183,6 +185,16 @@ void keyReleased() {
   if (key == '6') {
     slices+=2;
     if (slices > 40) slices = 40;
+    initit();
+  }
+  if (key == '7') {
+    widthFactor-= 0.5;
+    if (widthFactor < 1) widthFactor = 1;
+    initit();
+  }
+  if (key == '8') {
+    widthFactor+=0.5;
+    if (widthFactor > 10) widthFactor = 10;
     initit();
   }
 }
