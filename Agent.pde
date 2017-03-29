@@ -129,12 +129,12 @@ class Agent {
       PVector newp = new PVector(p.x + width/2, p.y + height/2);
       PVector newdes = new PVector(des.x + width/2, des.y + height/2);
       PVector pp = new PVector(pOld.x + width/2, pOld.y + height/2);
-      
+
       mirp = PVector.fromAngle(TWO_PI/slices - newp.heading());
       mirdes = PVector.fromAngle(TWO_PI/slices - newdes.heading());
       mirp.setMag(newp.mag());
       mirdes.setMag(newdes.mag());
-      
+
       float alpha = 0;
       pushMatrix();
       translate(width/2, height/2);
@@ -145,7 +145,10 @@ class Agent {
         if (i % 2 == 1) {       
           if (pen) {
             pushStyle();
-            strokeWeight(abs(sWidth*sin(noiseZ*stepSize)));
+            if (showLines)
+              strokeWeight(abs(sWidth*sin(noiseZ*stepSize)));
+            else
+              strokeWeight(widthFactor * abs(sWidth*sin(noiseZ*stepSize)));
             if (mirp.dist(oldm) < minDist && oldm.x != 0 && oldm.y != 0)
               line(mirp.x, mirp.y, oldm.x, oldm.y);
             popStyle();
@@ -155,7 +158,10 @@ class Agent {
         } else { /* second half of leaf */
           if (pen) {
             pushStyle();
-            strokeWeight(abs(sWidth*sin(noiseZ*stepSize)));
+            if (showLines)
+              strokeWeight(abs(sWidth*sin(noiseZ*stepSize)));
+            else
+              strokeWeight(widthFactor * abs(sWidth*sin(noiseZ*stepSize)));
             if (dist(newp.x, newp.y, pp.x, pp.y) < minDist && pp.x != 0 && pp.y != 0)
               line(newp.x, newp.y, pp.x, pp.y);
             popStyle();
@@ -175,6 +181,8 @@ class Agent {
     oldm.set(mirp);
     noiseZ += noiseZVelocity;
   }
+
+
 
 
   void setNoiseZRange(float theNoiseZRange) {
