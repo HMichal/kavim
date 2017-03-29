@@ -3,7 +3,6 @@
 // Mandala with agents and noise
 
 /**
- * noise values (noise 3d) are used to animate a bunch of agents.
  * 
  * KEYS
  * A                   : toggle colors from picture or random
