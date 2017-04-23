@@ -1,4 +1,5 @@
 
+
 class Agent {
   PVector p, pOld;
   float noiseZ, noiseZVelocity = 0.01;
@@ -26,7 +27,7 @@ class Agent {
     mirdes = new PVector(0, 0);
     oldm = new PVector(0, 0);
     oldmdes = new PVector(0, 0);
-    stepSize = random(1, 5);
+    stepSize = random(4,9); //random(1, 5);
     desStepSize = random(1, 5);
     // init noiseZ
     setNoiseZRange(0.4);
