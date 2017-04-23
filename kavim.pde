@@ -1,4 +1,5 @@
 
+
 // Michal Huller 25.12.2014
 // Mandala with agents and noise
 
@@ -90,11 +91,11 @@ void keyReleased() {
     initit();
   }
   if (key =='r' || key =='R') {
-    if (recordPDF == false) {
-      beginRecord(PDF, timestamp()+".pdf");
+    if (recordPDF == false) {   
+      beginRecord(PDF, "pdfs/"+timestamp()+".pdf");
+      initit();
       println("recording started");
       recordPDF = true;
-      stroke(0, 50);
     }
   } 
   if (key == 'e' || key =='E') {
@@ -102,7 +103,7 @@ void keyReleased() {
       println("recording stopped");
       endRecord();
       recordPDF = false;
-      background(255);
+      initit();
     }
   }
   if (key == 'm' || key == 'M') {
